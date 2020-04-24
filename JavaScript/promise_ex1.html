@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<!-- Source: https://scotch.io/tutorials/javascript-promises-for-dummies -->
+<head>
+  <style>
+#msg {
+  color: green;
+}
+#err {
+  color: red;
+}
+  </style>
+</head>
+
+<body>
+  <h2 id="msg"></h2>
+  <h2 id="err"></h2>
+
+<script>
+const isMomHappy = true;
+
+// Promise
+
+const willIGetNewPhone = new Promise(
+    (resolve, reject) => { // fat arrow
+        if (isMomHappy) {
+            const phone = {
+                brand: 'Samsung',
+                color: 'black'
+            };
+            resolve(phone);
+        } else {
+            const reason = new Error('mom is not happy');
+            reject(reason);
+        }
+
+    }
+);
+
+const showOff = function (phone) {
+    const message = 'Hey friend, I have a new ' +
+                phone.color + ' ' + phone.brand + ' phone';
+    return Promise.resolve(message);
+};
+
+// call our promise
+const askMom = function () {
+    willIGetNewPhone
+        .then(showOff)
+        .then(fulfilled => update_DOM(fulfilled)) // fat arrow
+        .catch(error => show_error(error.message)); // fat arrow
+};
+
+const update_DOM = (message) => {
+  document.getElementById('msg').innerHTML = message ;
+}
+const show_error = (message) => {
+  document.getElementById('err').innerHTML = message ;
+}
+askMom();
+
+  </script>
+</body>
+
+</html>
