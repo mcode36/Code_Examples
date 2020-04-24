@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<!-- 4/24/2020
+  Code example: Basic D3 Bar Chart
+  - With hover effect
+  - With scaling
+  - With x,y axes 
+-->
+
+<head>
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+  <style>
+    .bar:hover {
+      fill: brown;
+    }
+  </style>
+</head>
+
+<body>
+  <script>
+    const dataset = [12, 32, 22, 17, 25, 18, 29, 14, 9, 16];
+
+    const w = 500;
+    const h = 200;
+    const padding = 20;
+
+    // Scaling factors
+    const xScale = d3.scaleLinear()
+      .domain([0, dataset.length])
+      .range([padding, w - padding]);
+
+    const yScale = d3.scaleLinear()
+      .domain([0, d3.max(dataset, (d) => d)])
+      .range([h-padding, padding]);
+
+    const d_min = d3.min(dataset, (d) => d);
+    const d_max = d3.max(dataset, (d) => d);
+
+    // Create DOM element 'svg'
+    const svg = d3.select("body")
+      .append("svg")
+      .attr("width", w)
+      .attr("height", h);
+
+    // Creat bars according to dataset
+    svg.selectAll("rect")
+      .data(dataset)
+      .enter()
+      .append("rect")
+      .attr("x", (d, i) => xScale(i)+padding)
+      .attr("y", (d, i) => yScale(d))
+      .attr("width", 25)
+      //.attr("height", (d, i) => yScale(d))
+      .attr("height", (d) => d*(yScale(0)-yScale(1)))
+      .attr("fill", "navy")
+      // hover effect
+      .attr('class', 'bar')
+      // Tooltip
+      .append("title")
+      .text(d => d);
+    ;
+
+    // Adding text on top of each bar
+    svg.selectAll("text")
+      .data(dataset)
+      .enter()
+      .append("text")
+      .text((d) => d)
+      //.attr("x", (d, i) => i * 30)
+      .attr("x", (d, i) => xScale(i)+padding)
+      .attr("y", (d, i) => yScale(d) - 3);
+
+    // Build x,y Axes
+    const xAxis = d3.axisBottom(xScale);
+    const yAxis = d3.axisLeft(yScale);
+    svg.append("g")
+      .attr("transform", "translate(0," + (h - padding) + ")")
+      .call(xAxis);
+    svg.append('g')
+      .attr("transform", "translate(" + padding + ", 0)")
+      .call(yAxis);
+
+
+  </script>
+</body>
+
+</html>
