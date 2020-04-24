@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<!-- 
+
+  This example extends the promise_ex1.html, it uses promise to fetch JSON data from internet.
+  This is part of the FCC Data Viz project "Visualize Data with a Bar Chart"
+  
+ -->
+<head>
+  <style>
+
+  </style>
+</head>
+
+<body>
+  <p id="result"></p>
+
+  <script>
+    //var dataset = [];
+
+    // Define loadJson as a promise
+    const loadJson = new Promise(
+      (resolve, reject) => {
+        const req = new XMLHttpRequest();
+        const json_url = "https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/GDP-data.json";
+        req.open("GET", json_url, true);
+        req.send();
+        req.onload = function () {
+          const json = JSON.parse(req.responseText);
+          // document.getElementsByClassName('message')[0].innerHTML = JSON.stringify(json);
+          dataset = json.data;
+          console.log('b', dataset.length);
+          if (dataset.length > 0) {
+            resolve(dataset);
+          } else {
+            const reason = new Error('Can not load json error');
+            reject(reason);
+          }
+        };
+      }
+    );
+
+    // call our promise
+    const do_this = function () {
+      loadJson
+        .then(data => render(data))
+        .catch(error => show_error(error.message));
+    };
+
+    const render = (dataset) => {
+      console.log('a', dataset.length);
+      document.getElementById('result').innerHTML = dataset;
+    }
+    const show_error = (message) => {
+      document.getElementById('err').innerHTML = message;
+    }
+    document.addEventListener('DOMContentLoaded', do_this());
+
+
+  </script>
+</body>
+
+</html>
