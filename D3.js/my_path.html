@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<!-- 
+  D3.js example: Path and transitions
+-->
+<head>
+  <meta charset="utf-8">
+  <style type="text/css">
+  </style>
+
+<body>
+
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+
+  <script>
+    const N = 30;
+    // d3.range(n) : returns an array [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+    // d3.randomUniform(10)() : Returns a number between 0 and 10
+    // This generates an array of n objects of length N. Each object has key -> value pair, 
+    // the key being "y" and the value is a random Integer between 0 and 10
+    var dataset = d3.range(N).map(function (d) { return { "y": d3.randomUniform(10)() } });
+
+    var line = d3.line()
+      .x(function (d, i) { return i * 10; }) // set the x values for the line generator
+      .y(function (d) { return d.y * 10; }) // set the y values for the line generator 
+      .curve(d3.curveMonotoneX)  // apply smoothing to the line
+
+    var svg = d3.select("body").append("svg")
+      .attr("width", 300)
+      .attr("height", 200);
+
+    // Append the path, bind the data, and call the line generator 
+    svg.append("path")
+      .datum(dataset) // 10. Binds data to the line 
+      //.attr("class", "line") // Assign a class for styling 
+      .attr("d", line) // 11. Calls the line generator 
+      .attr("class", "apple")
+      .style("stroke", "#ffab00")
+      .style("stroke-width", 1)
+      .style("fill", "yellow")  // set initial fill color
+      .transition()  // gradually change filled color to red
+        .duration(3000)
+        .ease(d3.easeLinear)
+        .style("fill", "red")
+      ;
+
+/*  Method 2: DO the transition seperately
+    var t = d3.transition()
+      .duration(750)
+      .ease(d3.easeLinear);
+
+    d3.selectAll(".apple").transition(t)
+      .style("fill", "red"); 
+*/
+
+  </script>
+</body>
+
+</html>
