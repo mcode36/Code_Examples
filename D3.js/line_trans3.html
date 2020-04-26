@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+  <style type="text/css">
+    .old {
+      stroke: darkgrey;
+      stroke-dasharray: "3 2";
+      stroke-dashoffset: 0;
+    }
+  </style>
+
+
+</head>
+
+<body>
+  <div id="svgContainer"></div>
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+
+
+  <script type="text/javascript">
+    var padding = 20;
+    var w = 400 + 2 * padding;
+    var h = 400 + 2 * padding;
+
+
+    var svg = d3.select("#svgContainer")
+      .append("svg")
+      .attr("width", w)
+      .attr("height", h)
+      .attr("id", "visualization");
+
+    var xScale = d3.scaleLinear().domain([0, 10]).range([padding, w - padding]);
+    var yScale = d3.scaleLinear().domain([0, 10]).range([h - padding, padding]);
+
+    function dash_line(vx, vy) {
+      svg.selectAll(".tdash").remove();  // clean up any dash line that is still running
+
+      var data = d3.range(vx + 1).map(function (d) { return vy })
+      var line = d3.line()
+        .x(function (d, i) { return xScale(i); })
+        .y(function (d) { return yScale(d); })
+        .curve(d3.curveNatural)
+
+      var path = svg.append("path")
+        .attr("d", line(data))
+        .attr("class", "tdash")
+        .attr("stroke", "darkgrey")
+        .attr("stroke-width", "2")
+        .attr("fill", "none");
+
+      var totalLength = path.node().getTotalLength();
+
+      path.attr("stroke-dasharray", "3 2")
+        .attr("stroke-dashoffset", 0)
+        .transition()
+        .duration(1000)
+        .ease(d3.easeLinear)
+        .attr("stroke-dashoffset", 50)
+        .on("end", () => {
+          svg.selectAll(".tdash")
+            .attr("class", "old")
+            .style("opacity", .9)
+            .transition()
+            .duration(1000)
+            .ease(d3.easeLinear)
+            .style("opacity", 0)
+            .delay(500)
+            .remove();
+        });
+    }
+
+
+    const xAxis = d3.axisBottom(xScale);
+    const yAxis = d3.axisLeft(yScale);
+
+    svg.append("g")
+      .attr("transform", "translate(0," + (h - padding) + ")")
+      .call(xAxis);
+    svg.append('g')
+      .attr("transform", "translate(" + padding + ", 0)")
+      .call(yAxis);
+
+    const dataset = [[2, 3], [5, 5], [7, 8]];
+    svg.selectAll("circle")
+      .data(dataset)
+      .enter()
+      .append("circle")
+      .attr("cx", (d) => xScale(d[0]))
+      .attr("cy", (d) => yScale(d[1]))
+      .attr("r", (d) => 5)
+      .on("mouseover", (d) => dash_line(d[0], d[1]))
+      ;
+
+
+
+
+
+  </script>
+</body>
+
+</html>
