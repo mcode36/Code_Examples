@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+<!--
+   Example of line animation. Can be used together with tooltip.
+   For example, when mouse pointing to a data point on the chart,
+   it will run an animated dash line toward the y-axis
+-->
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+  <style type="text/css">
+    .old {
+      stroke: lightgrey;
+      stroke-dasharray: "3 2";
+      stroke-dashoffset: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="svgContainer"></div>
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+
+
+  <script type="text/javascript">
+    var w = 300;
+    var h = 100;
+    var N = 11;
+
+    var svg = d3.select("#svgContainer")
+      .append("svg")
+      .attr("width", w)
+      .attr("height", h)
+      .attr("id", "visualization");
+
+    var x = d3.scaleLinear().domain([0, 10]).range([w, 0]); // x(0) = w, x(10) = 0, draw from right to left
+    var y = d3.scaleLinear().domain([0, 10]).range([10, h - 10]); // y(0) = 10, y(10) = h-10
+
+    var line = d3.line()
+      .x(function (d, i) { return x(i); })
+      .y(function (d) { return y(d); })
+      .curve(d3.curveNatural)
+
+    //var data = d3.range(11).map(function () { return Math.random() * 10 })
+    var data = d3.range(N).map(function (d) { return 5 })  // make it horizontal line
+
+
+    // Uncomment following line to clear the previously drawn line
+    let cleanUp = () => {
+      svg.selectAll("path")
+        .attr("class", "old")
+        .style("opacity", .9)
+        .transition()
+          .duration(1500)
+          .ease(d3.easeLinear)
+          .style("opacity", 0)
+        .delay(500)
+        .remove();
+    }
+
+    // Set a light grey class on old paths
+
+
+    var path = svg.append("path")
+      .attr("d", line(data))
+      .attr("stroke", "darkgrey")
+      .attr("stroke-width", "2")
+      .attr("fill", "none");
+
+    var totalLength = path.node().getTotalLength();
+    console.log(totalLength)
+
+    path
+      //.attr("stroke-dasharray", totalLength + " " + totalLength)
+      .attr("stroke-dasharray", "3 2")
+      .attr("stroke-dashoffset", 50)
+      .transition()
+      .duration(2500)
+      .ease(d3.easeLinear)
+      .attr("stroke-dashoffset", 0)
+      .on("end", cleanUp);
+
+
+  </script>
+</body>
+
+</html>
