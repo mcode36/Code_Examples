@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<!-- 
+from: https://stackoverflow.com/questions/623172/how-to-get-image-size-height-width-using-javascript
+
+Get image size with image URL
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>JavaScript Find Real Image Width and Height</title>
+<script>
+    function imgSize(){
+        var img = new Image();
+		img.onload = function() {
+		alert(this.width + 'x' + this.height);
+		}
+		img.src = 'http://www.google.com/intl/en_ALL/images/logo.gif';
+    }
+</script>
+</head>
+<body>
+    <p><button type="button" onclick="imgSize();">Get Original Image Size</button></p>
+</body>
+</html>
