@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<!-- 
+from: https://www.tutorialrepublic.com/faq/how-to-get-original-image-size-in-javascript.php
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>JavaScript Find Real Image Width and Height</title>
+<script>
+    function imgSize(){
+        var myImg = document.querySelector("#test");
+        var realWidth = myImg.naturalWidth;
+        var realHeight = myImg.naturalHeight;
+        alert("Original width=" + realWidth + ", " + "Original height=" + realHeight);
+    }
+</script>
+</head>
+<body>
+    <img src="img/test.jpg" id="test" width="250" alt="icon">
+    <p><button type="button" onclick="imgSize();">Get Original Image Size</button></p>
+</body>
+</html>
