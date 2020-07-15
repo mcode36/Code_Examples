@@ -1,11 +1,12 @@
 <?php
 
 ///// Database connection /////
-
-  $host="localhost";
-  $user="db_user";
-  $pwd="Magic#!B11";
-  $sys_dbname="test_db";
+  include './db_connect.php' ;
+  // Add the following lines in db_connect.php
+  // $host       = "localhost";
+  // $user       = "_db_user_";
+  // $pwd        = "_password_";
+  // $sys_dbname = "_db_name_";
 
   $db_conn = mysqli_connect($host,$user,$pwd,$sys_dbname);
   // Check connection
