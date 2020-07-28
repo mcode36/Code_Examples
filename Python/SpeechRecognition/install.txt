@@ -1,0 +1,6 @@
+virtualenv venv
+venv\scripts\activate
+
+pip3 install SpeechRecognition
+pip install pipwin
+pipwin install pyaudio
