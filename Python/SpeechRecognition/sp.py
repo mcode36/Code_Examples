@@ -11,7 +11,7 @@ def Play_Voice(AUDIO_FILE_NAME):
   # PyAudio
   p = pyaudio.PyAudio()
   # Open Stream
-  stream = p.open(format = p.get_format_from_width(File.getstampwidth()),
+  stream = p.open(format = p.get_format_from_width(File.getsampwidth()),
            channels = File.getnchannels(),
            rate = File.getframerate(),
            output = True)
@@ -57,13 +57,14 @@ outfile = 'Voice.txt'
 f1 = open(outfile, 'w', encoding='CP950')
 
 print('Play wav file:')
-AUDIO_FILE_NAME = 'Speech.wav'
+AUDIO_FILE_NAME = 'that-feels-really-powerful.wav'
 Play_Voice(AUDIO_FILE_NAME)
 
 print('Convert to text:')
 Text = AudioFile_To_Text(AUDIO_FILE_NAME)
 print(Text)
 f1.write(Text)
+
 print('Verbal Translate start:')
 Text = Voice_To_Text()
 print(Text)
