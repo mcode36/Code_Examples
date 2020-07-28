@@ -54,7 +54,7 @@ def Voice_To_Text():
   
 # Set text file path
 outfile = 'Voice.txt'
-f1 = open(outfile, 'w', encoding='CP950')
+f1 = open(outfile, 'w', encoding='utf-8')
 
 print('Play wav file:')
 AUDIO_FILE_NAME = 'that-feels-really-powerful.wav'
@@ -63,11 +63,11 @@ Play_Voice(AUDIO_FILE_NAME)
 print('Convert to text:')
 Text = AudioFile_To_Text(AUDIO_FILE_NAME)
 print(Text)
-f1.write(Text)
+f1.write(Text+'\n')
 
 print('Verbal Translate start:')
 Text = Voice_To_Text()
 print(Text)
-f1.write(Text+'\n')
+f1.write(Text)
 print('\n\nFile ' + outfile + ' has been saved')
 f1.close()
