@@ -1,3 +1,13 @@
 https://www.wavsource.com/stuff.htm
 
 http://soundbible.com/
+
+Todo:
+- Add Sound Effect
+- Game Over
+- Score
+- Paddle Sensation
+- Paddle 'Shift' up
+- (Player's) multiple life
+- Hard Brick
+- Press SPACE bar to toggle pause state
