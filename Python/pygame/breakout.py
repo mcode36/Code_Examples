@@ -12,8 +12,13 @@ pygame.init()
 
 # Setup colors
 red = (255,0,0)
+green = (0,255,0)
 blue = (0,0,255)
 black = (0,0,0)
+white = (255,255,255)
+
+## Other setup
+score = 0
 
 # Sound Effect
 hit = pygame.mixer.Sound('sms-alert-1-daniel_simon.wav')
@@ -33,6 +38,14 @@ def message_display(text):
     TextSurf = largeText.render(text, True, red)
     TextRect = TextSurf.get_rect()
     TextRect.center = (int(display_width/2),int(display_height/2))
+    display.blit(TextSurf, TextRect)
+
+def score_display(score):
+    text = 'Score: ' + str(score)
+    smallText = pygame.font.Font('freesansbold.ttf',20)
+    TextSurf = smallText.render(text, True, white)
+    TextRect = TextSurf.get_rect()
+    (TextRect.left,TextRect.top)  = (10,display_height-20)
     display.blit(TextSurf, TextRect)
 
 # Setup the player controlled rectangle
@@ -105,7 +118,7 @@ while 1:
         game_status = 'over'
 
     if player_rect.colliderect(ball_rect):
-        hit.play()  
+        hit.play()
         ball_speed[1] = -ball_speed[1]
 
     for idx, x in enumerate(target_rect_list):
@@ -113,14 +126,17 @@ while 1:
             del target_rect_list[idx]
             del target_surf_list[idx]
             ball_speed[1] = -ball_speed[1]
+            score = score + 5
 
-    # Try text
-    
     display.fill(display_color)
     display.blit(player_surface, player_rect)
     display.blit(ball, ball_rect)
     for x in range(len(target_surf_list)):
         display.blit(target_surf_list[x], target_rect_list[x])
+
+    # Update score
+    score_display(score)
+
     if game_status == 'over':
         message_display('Game Over')
     pygame.display.flip()
