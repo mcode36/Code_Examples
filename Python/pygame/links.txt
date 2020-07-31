@@ -6,7 +6,7 @@ Todo:
 - Add Sound Effect
 - Game Over
 - Score
-- Paddle Sensation
+- Paddle Sensation (skew)
 - Paddle 'Shift' up
 - (Player's) multiple life
 - Hard Brick
